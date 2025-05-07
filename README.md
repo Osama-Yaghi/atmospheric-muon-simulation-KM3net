@@ -1,61 +1,98 @@
-# atmospheric-muon-simulation-KM3net
+# Atmospheric Muon Flux Simulation for KM3NeT
 
 This project simulates the flux of atmospheric muons underwater using a Monte Carlo method, tailored for the geometry and detection environment of the KM3NeT neutrino telescope.
 
+## 🌊 About KM3NeT
+
+**KM3NeT** (Cubic Kilometre Neutrino Telescope) is a deep-sea neutrino observatory being built in the Mediterranean Sea. It is designed to detect high-energy neutrinos from astrophysical sources and study fundamental properties of neutrinos.
+
+Key features:
+- Detector depth of 2500–5000 meters reduces background noise.
+- Photomultiplier tubes arranged in large 3D arrays across vertical detection lines.
+- Dual scientific goals: cosmic neutrino detection (ARCA) and neutrino oscillation physics (ORCA).
+
+Atmospheric muons represent a dominant background signal and a calibration tool. Accurately simulating them is critical for:
+- Background rejection algorithms.
+- Trigger optimization.
+- Detector calibration and energy reconstruction studies.
 
 ## 📌 Overview
 
-Atmospheric muons are a key background and calibration source for deep-sea neutrino telescopes. This simulation models the flux of muons arriving at the detector site by:
-- Sampling muon energies and angles using a physics-based probability distribution.
-- Propagating muons through seawater while accounting for continuous energy loss.
-- Calculating intersections with a cylindrical detector volume.
-- Filtering muons that reach the detector with energy above a threshold.
-
-The result is a realistic sample of muon events at the detector’s boundary, with spatial, directional, and energy distributions consistent with physical expectations.
-
-
-## 🌊 About KM3NeT
-
-**KM3NeT** (Cubic Kilometre Neutrino Telescope) is a multi-site, deep-sea research infrastructure hosting neutrino telescopes in the Mediterranean Sea. Its primary goal is to detect neutrinos from astrophysical sources and study fundamental neutrino properties.
-
-Key features:
-- **Detector Environment:** Located at depths of 2500–5000 meters, minimizing background from atmospheric particles.
-- **Detector Geometry:** A 3D array of photomultiplier tubes (PMTs) housed in digital optical modules (DOMs), arranged along vertical detection units.
-- **Scientific Goals:**
-  - Identify cosmic neutrino sources.
-  - Investigate the neutrino mass hierarchy.
-  - Study atmospheric neutrino interactions and oscillations.
-
-Understanding the **flux of atmospheric muons**, a dominant background source, is essential for:
-- Background rejection and calibration.
-- Optimizing detector design and reconstruction algorithms.
-- Interpreting low-energy neutrino events that can be mimicked by muon-induced signatures.
-
-This simulation models those muons in realistic geometry, helping assess and tune the detector response.
+This code simulates the atmospheric muon flux arriving at an underwater detector. It:
+- Samples muon energy and angle distributions based on physics-driven probability densities.
+- Uses geometric sampling to calculate muon paths toward a cylindrical detector.
+- Applies continuous energy loss models through seawater using real tabulated stopping powers.
+- Filters muons that survive to the detector boundary with sufficient energy.
 
 ## 🧠 Physics Modeled
 
-- Muon flux based on the Gaisser parameterization.
-- Solid angle correction via Jacobian transformation.
-- Continuous energy loss using tabulated data (`loss.txt`) and interpolation.
-- Propagation through a cylindrical geometry with geometric rejection sampling.
-- Thresholding by muon range in water to ensure realism.
+- Gaisser-like parameterization of atmospheric muon flux.
+- Angular correction using Jacobian solid angle factor.
+- Continuous energy loss in water, interpolated from a tabulated file (`loss.txt`).
+- Propagation and intersection with a cylindrical detector volume.
+- Muon survival filtering based on energy threshold at arrival.
 
 ## 🔧 Features
 
-- Highly parallelized using `joblib` to maximize performance.
-- 3D visualization of muon hits on the detector.
-- Histogram plots of muon energy and vertical momentum.
-- Output CSV files for statistical post-processing and visualization.
+- Parallelized with `joblib` for faster simulation across CPU cores.
+- Generates histograms of muon energies and directional cosines.
+- Produces 3D scatter plots of detected muon hit locations.
+- Outputs all data in clean CSV format for analysis or plotting.
+
+## 🚀 How to Run
+
+### Requirements
+
+- Python 3.x
+- numpy
+- pandas
+- matplotlib
+- seaborn
+- scipy
+- joblib
+
+Install requirements using pip or your environment manager of choice.
+
+### Execution
+
+Run the main script directly:
+
+python Monte-carlo-simulation-generate_v1.0.py
+
+This will launch the simulation, generate events, and produce output files and plots.
+
+## 📊 Output Description
+
+The main output file (`result_<run_id>.csv`) contains one line per detected muon event. Columns:
+
+- `x, y, z`: Position where the muon intersects the detector volume.
+- `vx, vy, vz`: Directional components of the muon.
+- `E`: Energy of the muon at the detector.
+- `num_calls`: Number of random sampling iterations used to generate the muon (for efficiency diagnostics).
+
+Two plots are also saved:
+- `hists1.png`: Histograms of energy and vertical direction component.
+- `3d1.png`: 3D scatter plot of muon entry points on the detector.
+
+Additional optional output includes efficiency data in `efficiency_<run_id>.csv`.
 
 ## 📂 Repository Structure
 
-```bash
-.
-├── Monte-carlo-simulation-generate_v1.0.py  # Main simulation script
-├── loss.txt                                 # Energy loss table for muons in seawater
-├── result_<run_id>.csv                      # Output: simulated muon hits
-├── efficiency_<run_id>.csv                  # Output: efficiency metrics (optional)
-├── hists1.png                               # Histogram of energy and direction
-├── 3d1.png                                  # 3D scatter plot of muon hits
-├── README.md                                # This file
+Monte-carlo-simulation-generate_v1.0.py      # Main simulation script  
+loss.txt                                      # Muon stopping power data in water  
+result_<run_id>.csv                           # Output: simulated muon hits  
+efficiency_<run_id>.csv                       # Output: efficiency metrics (optional)  
+hists1.png                                    # Energy and angle histograms  
+3d1.png                                       # 3D visualization of muon positions  
+README.md                                     # This file  
+
+## ⚠ Notes & Assumptions
+
+- Simulation assumes maximum muon energy of 100 GeV.
+- Only downward-going muons (zenith < 85°) are considered.
+- `loss.txt` must be present and correctly formatted (columns: energy, range, stopping power, etc.).
+- Energy loss model uses continuous approximation; stochastic effects are not included.
+
+## ✍ Author
+
+**Osama Yaghi**
