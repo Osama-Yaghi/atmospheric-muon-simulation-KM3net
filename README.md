@@ -1,7 +1,7 @@
 # Atmospheric Muon Flux Simulation for KM3NeT
 
 This project simulates the flux of atmospheric muons underwater using a Monte Carlo method, tailored for the geometry and detection environment of the KM3NeT neutrino telescope.
-
+Written in 11/2020.
 ## 🌊 About KM3NeT
 
 **KM3NeT** (Cubic Kilometre Neutrino Telescope) is a deep-sea neutrino observatory being built in the Mediterranean Sea. It is designed to detect high-energy neutrinos from astrophysical sources and study fundamental properties of neutrinos.
@@ -54,12 +54,11 @@ This code simulates the atmospheric muon flux arriving at an underwater detector
 Install requirements using pip or your environment manager of choice.
 
 ### Execution
-
-Run the main script directly:
-
+-Modify the input file in input/input.txt
+-Run the main script directly:
 python Monte-carlo-simulation-generate_v1.0.py
 
-This will launch the simulation, generate events, and produce output files and plots.
+This will launch the simulation, generate events, and produce output files and plots in output/.
 
 ## 📊 Output Description
 
@@ -78,13 +77,18 @@ Additional optional output includes efficiency data in `efficiency_<run_id>.csv`
 
 ## 📂 Repository Structure
 
-Monte-carlo-simulation-generate_v1.0.py      # Main simulation script  
-loss.txt                                      # Muon stopping power data in water  
-result_<run_id>.csv                           # Output: simulated muon hits  
-efficiency_<run_id>.csv                       # Output: efficiency metrics (optional)  
-hists1.png                                    # Energy and angle histograms  
-3d1.png                                       # 3D visualization of muon positions  
-README.md                                     # This file  
+Monte-carlo-simulation-generate_v1.0.py         # Main simulation script
+simulation/                                     # Input and output functions
+  visualization.py                              #Handles the output
+  reading_data.py                               #Handles the input
+input/
+  loss.txt                                      # Muon stopping power data in water
+  input.txt                                     # Parameters of the calculation
+output/  
+  result_<run_id>.csv                           # Output: simulated muon hits   
+  hists1.png                                    # Energy and angle histograms  
+  3d1.png                                       # 3D visualization of muon positions
+README.md                                       # This file  
 
 ## ⚠ Notes & Assumptions
 
