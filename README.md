@@ -75,21 +75,6 @@ Two plots are also saved:
 
 Additional optional output includes efficiency data in `efficiency_<run_id>.csv`.
 
-## 📂 Repository Structure
-
-Monte-carlo-simulation-generate_v1.0.py         # Main simulation script
-simulation/                                     # Input and output functions
-  visualization.py                              #Handles the output
-  reading_data.py                               #Handles the input
-input/
-  loss.txt                                      # Muon stopping power data in water
-  input.txt                                     # Parameters of the calculation
-output/  
-  result_<run_id>.csv                           # Output: simulated muon hits   
-  hists1.png                                    # Energy and angle histograms  
-  3d1.png                                       # 3D visualization of muon positions
-README.md                                       # This file  
-
 ## ⚠ Notes & Assumptions
 
 - Simulation assumes maximum muon energy of 100 GeV.
